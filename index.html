@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+        <script>
+            let angle = 0;
+            let scale = 1;
+            let x = 100;
+            let y = 100;
+            interact('#mydiv').gesturable({
+                inertia: true,
+                onstart: function (event) {
+                    console.log("gesture start");
+                },
+                onend: function (event) {
+                    console.log("gesture end");
+                },
+                onmove: function (event) {
+                    let div = document.getElementById('mydiv');
+                    angle += event.da;
+                    x += event.dx;
+                    y += event.dy;
+                    scale *= (1+ event.ds);
+                    console.log("gesture move", event);
+                    console.log("gesture move", x,y,angle,scale);
+                    div.style.transform = 'translate('+x+'px, '+y+'px) scale('+scale+') rotate('+angle+'deg)';
+                    console.log("gesture move", div);
+
+                },
+            })
+        </script>
+        <style type="text/css">
+            body, div {
+                touch-action: none;
+                user-select: none;
+            }
+            div#mydiv {
+                top: -50px;
+                left: -50px;
+                width: 100px;
+                height: 100px;
+                display:block;
+                position: absolute;
+                background-color: red;
+                transform-origin: 50px 50px;
+                transform: translate(100px, 100px);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="mydiv"></div>
+    </body>
+</html>
